@@ -351,7 +351,9 @@ class Roller(object):
         # We'll save the flattened items as an attribute to support a 
         # chainable interface.
         self._items = []
-        primary_qs = self._querysets[self.primary_collection_name].as_pymongo()
+        # Use no_cache() to save on memory.  We only need to iterate through the
+        # queryset once.
+        primary_qs = self._querysets[self.primary_collection_name].no_cache().as_pymongo()
         for primary in primary_qs:
             related = {}
             for fname, coll in self._relationships.items():
