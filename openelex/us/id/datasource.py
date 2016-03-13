@@ -26,8 +26,8 @@ class Datasource(BaseDatasource):
     
     # PUBLIC INTERFACE
     def mappings(self, year=None):
-        """Return array of dicts containing source url and 
-        standardized filename for raw results file, along 
+        """Return array of dicts containing source url and
+        standardized filename for raw results file, along
         with other pieces of metadata
         """
         mappings = []
@@ -40,17 +40,22 @@ class Datasource(BaseDatasource):
         return [item['raw_url'] for item in self.mappings(year)]
 
     def filename_url_pairs(self, year=None):
-        return [(item['generated_filename'], item['raw_url']) 
+        return [(item['generated_filename'], item['raw_url'])
                 for item in self.mappings(year)]
 
     def results_links(self, year):
         if not hasattr(self, '_results_links'):
-            url = "http://www.sos.idaho.gov/elect/results.htm"
+            #url = "http://www.sos.idaho.gov/elect/results.htm"
+            url = "http://www.sos.idaho.gov/elect/results/index.html"
             r = requests.get(url)
             soup = BeautifulSoup(r.text)
-            table = soup.find_all('table')[3]
-            precincts = [x for x in table.find_all('a') if str(year) in x['href']]
+            #import pdb;pdb.set_trace()
+            table = soup.find_all('table')[-1]
+            
+            precincts = [x for x in table.findAll('a') if str(year) in x['href']]
+            
             self._results_links = [x for x in precincts if x.text == 'Statewide' or 'Legislature' in x.text]
+           # print(self._results_links)
         return self._results_links
         
     # PRIVATE METHODS

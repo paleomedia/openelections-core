@@ -67,9 +67,11 @@ try:
 except ImportError:
     pass
 
-try:
-    settings.from_envvar('OPENELEX_SETTINGS')
-except KeyError:
-    print("The environment variable OPENELEX_SETTINGS has not been set.  You "
-          "should set this environment variable as the absolute path to a "
-          "Python file containing your settings.")
+OPENELEX_SETTINGS = "~/Downloads/openelex/openelex/openelections-core/settings.py"
+
+#try:
+#    settings.from_envvar('OPENELEX_SETTINGS')
+#except KeyError:
+#    print("The environment variable OPENELEX_SETTINGS has not been set.  You "
+#          "should set this environment variable as the absolute path to a "
+#          "Python file containing your settings.")
